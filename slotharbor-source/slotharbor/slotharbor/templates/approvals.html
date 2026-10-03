@@ -1,0 +1,2 @@
+{% extends 'base.html' %}{% from 'macros.html' import reservation_rows %}{% block title %}Approvals{% endblock %}{% block breadcrumb %}Approvals{% endblock %}
+{% block content %}<section class="page-heading"><div><p class="eyebrow">A DECISION KEEPS THINGS MOVING</p><h1>Approval queue.</h1><p>Pending requests hold their time slots. Open a request to approve or reject that occurrence.</p></div><span class="count-pill">{{ bookings|length }} pending</span></section><section class="panel">{{ reservation_rows(bookings) }}</section>{% endblock %}

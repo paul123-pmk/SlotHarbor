@@ -1,0 +1,33 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "slotharbor"
+version = "0.1.0"
+description = "Resource reservations, recurring schedules and maintenance coordination"
+requires-python = ">=3.11"
+dependencies = ["fastapi==0.128.2", "uvicorn==0.48.0", "jinja2==3.1.6", "tzdata==2026.2"]
+
+[project.optional-dependencies]
+test = ["pytest==9.0.2", "pytest-cov==7.0.0", "httpx==0.28.1"]
+
+[project.scripts]
+slotharbor = "slotharbor.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["slotharbor*"]
+
+[tool.setuptools.package-data]
+slotharbor = ["schema.sql", "templates/*.html", "static/*.css", "static/*.js"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra"
+
+[tool.coverage.run]
+branch = true
+source = ["slotharbor"]
+
+[tool.coverage.report]
+show_missing = true

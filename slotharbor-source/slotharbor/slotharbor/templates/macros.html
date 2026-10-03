@@ -1,0 +1,9 @@
+{% macro reservation_rows(bookings) %}
+{% if bookings %}<div class="table-wrap"><table><thead><tr><th>Reservation</th><th>When · resource local time</th><th>Reserved by</th><th>Status</th><th></th></tr></thead><tbody>
+{% for b in bookings %}<tr><td><a class="table-title" href="/reservations/{{ b.id }}">{{ b.title }}</a><span class="subtext">{{ b.resource_name }} · {{ b.attendees }} people</span></td><td>{{ b.start_at|localtime(b.timezone) }}<span class="subtext">To {{ b.end_at|localtime(b.timezone) }} · {{ b.timezone }}</span></td><td>{{ b.username }}</td><td><span class="badge {{ b.status }}">{{ b.status|capitalize }}</span></td><td><a class="row-arrow" href="/reservations/{{ b.id }}" aria-label="Open {{ b.title }}">↗</a></td></tr>{% endfor %}
+</tbody></table></div>{% else %}<div class="empty-state"><span>◷</span><h3>A little breathing room.</h3><p>No reservations match this view. Add one when the next session takes shape.</p></div>{% endif %}
+{% endmacro %}
+
+{% macro resource_select(resources) %}<label>Resource<select name="resource_id" data-type="int" required><option value="">Choose a resource</option>{% for r in resources if r.active %}<option value="{{ r.id }}" data-zone="{{ r.timezone }}">{{ r.name }} · {{ r.timezone }}</option>{% endfor %}</select></label>{% endmacro %}
+
+{% macro fold_fields() %}<details class="advanced"><summary>Clock-change options</summary><p class="help">Leave these automatic unless a local time happens twice when the clock moves back.</p><div class="form-grid"><label>Start occurrence<select name="start_fold" data-type="nullable-int"><option value="">Automatic</option><option value="0">First occurrence</option><option value="1">Second occurrence</option></select></label><label>End occurrence<select name="end_fold" data-type="nullable-int"><option value="">Automatic</option><option value="0">First occurrence</option><option value="1">Second occurrence</option></select></label></div></details>{% endmacro %}

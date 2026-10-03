@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="csrf-token" content="{{ csrf }}"><title>{% block title %}Workspace{% endblock %} · SlotHarbor</title>
+<link rel="stylesheet" href="/static/app.css"><script src="/static/app.js" defer></script></head>
+<body><a class="skip" href="#content">Skip to content</a><div class="shell">
+<aside class="sidebar"><a class="brand" href="/"><span class="brand-mark">s<span>h</span></span><span>SlotHarbor<small>Space to do your best work.</small></span></a>
+<p class="nav-caption">WORKSPACE</p><nav aria-label="Primary">
+{% for link,label,symbol in [('/', 'Overview','◷'),('/reservations','Reservations','▦'),('/resources','Resources','▱')] %}
+<a href="{{ link }}" class="nav-item {% if path==link %}selected{% endif %}"><span aria-hidden="true">{{ symbol }}</span>{{ label }}</a>{% endfor %}
+{% if user.role in ['admin','coordinator'] %}<a class="nav-item {% if path=='/approvals' %}selected{% endif %}" href="/approvals"><span aria-hidden="true">✓</span>Approvals</a>
+<a class="nav-item {% if path=='/maintenance' %}selected{% endif %}" href="/maintenance"><span aria-hidden="true">◇</span>Maintenance</a>{% endif %}
+<a class="nav-item {% if path=='/reports' %}selected{% endif %}" href="/reports"><span aria-hidden="true">▥</span>Reports</a>
+{% if user.role=='admin' %}<a class="nav-item {% if path=='/team' %}selected{% endif %}" href="/team"><span aria-hidden="true">◎</span>Team</a>{% endif %}</nav>
+<div class="sidebar-note"><span class="status-dot"></span> YOUR WORKSPACE<p>One schedule.<br>Fewer crossed wires.</p><small>Local workspace · v0.1.0</small></div>
+<div class="identity"><span class="avatar">{{ user.username[:2]|upper }}</span><div><strong>{{ user.username }}</strong><small>{{ user.role|capitalize }}</small></div>
+<form data-api="/api/auth/logout"><button class="icon-button" title="Sign out" aria-label="Sign out">↗</button><p class="form-error" role="alert"></p></form></div></aside>
+<div class="workspace"><header class="topbar"><span>Workspace <span class="slash">/</span> {% block breadcrumb %}Overview{% endblock %}</span><span class="topbar-right"><span class="status-dot"></span>Team schedule<form class="mobile-signout" data-api="/api/auth/logout"><button class="icon-button" title="Sign out" aria-label="Sign out">↗</button><p class="form-error" role="alert"></p></form></span></header>
+<main id="content">{% block content %}{% endblock %}</main><footer>SlotHarbor <span>Resource time, thoughtfully organized.</span></footer></div></div></body></html>
